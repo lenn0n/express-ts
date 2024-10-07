@@ -9,7 +9,7 @@ const expressParseOptions = {
 };
 
 // Mongo DB Initialization
-const { connectToDb } = require("@mongodb")
+const { connectToDB } = require("@mongodb")
 
 // Utils
 require('@utils/custom.console');
@@ -31,7 +31,7 @@ app.use(cors());
 app.use("/api/v1", authRoutes);
 
 // Connect to Mongo and start the server
-connectToDb((err: any) => {
+connectToDB("portfolio", (err: any) => {
   if (!err) {
     // Start server
     app.listen(process.env.SERVER_PORT, () => {

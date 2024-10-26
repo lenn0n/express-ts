@@ -1,5 +1,6 @@
 import express from "express"
 import authRoutes from "@routes/auth"
+import userRoutes from "@routes/user"
 import cors from 'cors';
 
 // Express Initialization
@@ -29,13 +30,14 @@ app.use(cors());
 
 // RESTful API
 app.use("/api/v1", authRoutes);
+app.use("/api/v1", userRoutes);
 
 // Connect to Mongo and start the server
-connectToDB("portfolio", (err: any) => {
+connectToDB(process.env.DB_NAME, (err: any) => {
   if (!err) {
     // Start server
-    app.listen(process.env.SERVER_PORT, () => {
-      console.info(`API is now running on port ${process.env.SERVER_PORT}. MongoDB was also initialized.`)
+    app.listen(process.env.PORT, () => {
+      console.info(`API is now running on port ${process.env.PORT}. MongoDB was also initialized.`)
     })
   } else {
     console.error(`An error occured while trying to connect to MongoDB URI. ${process.env.MONGO_DB_URI}`);

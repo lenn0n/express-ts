@@ -1,5 +1,5 @@
+require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb')
-
 // Init Database URI and other options
 const client = new MongoClient(process.env.MONGO_DB_URI, {
   serverApi: {

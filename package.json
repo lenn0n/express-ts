@@ -1,21 +1,26 @@
 {
-  "name": "express-ts",
+  "name": "node-express-ts-backend",
   "version": "1.0.0",
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node -r tsconfig-paths/register src/app.ts",
+    "build": "tsc",
+    "start": "node -r module-alias/register dist/app.js",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Lennon Benedict Jansuy",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.9.0"
+    "jwt-decode": "^4.0.0",
+    "module-alias": "^2.2.3",
+    "mongodb": "^6.9.0",
+    "nodemailer": "^6.9.15"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -25,5 +30,15 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
+  },
+  "_moduleAliases": {
+    "@routes": "dist/routes",
+    "@utils": "dist/utils",
+    "@controllers": "dist/controllers",
+    "@graphql": "dist/graphql",
+    "@mongodb": "dist/mongodb",
+    "@hooks": "dist/hooks",
+    "@proptypes": "dist/types",
+    "@services": "dist/services"
   }
 }

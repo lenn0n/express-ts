@@ -1,23 +1,50 @@
-const jwt = require("jsonwebtoken")
+import { generateHash, validateInput, signToken } from "@hooks/useJWT";
+import useNodeMailer from "@hooks/useNodeMailer"
+import { retrieveData, insertData } from "@services/mongo.service"
+import e from "express";
 
 type loginWithPasswordProp = { password: string, expiresIn?: string }
+type emailTemplateProp = { sendTo: string, subject: string, html: string }
 
-export const loginWithPassword = ({ password, expiresIn }: loginWithPasswordProp) => {
-  // Logic
-  if (btoa(password) !== btoa(process.env.PASSWORD as string) || !password) {
-    return false
+export const loginWithPassword = async ({ password, expiresIn }: loginWithPasswordProp) => {
+
+  // QUERY THE HASH FROM THE DATABASE
+  const hash = "SELECTED_FROM_DATABASE_USING_USERNAME_OR_EMAIL"
+  const checkPassword = await validateInput({ input: password, hash })
+
+  if (!checkPassword) {
+    return {
+      code: 401,
+      json: {
+        message: "Incorrect password."
+      }
+    }
   }
 
-  // Store data like email and UID.
+  // GENERATION OF PAYLOAD
   const userPublicData = {
-    hash: btoa(String(process.env.ACCESS_TOKEN_SECRET))
+    userData: {}
   }
-
-  // Token options
   let tokenOptions = {
     expiresIn: expiresIn || '24h'
   }
 
-  // Return token
-  return jwt.sign(userPublicData, process.env.ACCESS_TOKEN_SECRET, tokenOptions);
+  const generatedToken = signToken({ payload: userPublicData, options: tokenOptions })
+
+  return {
+    code: 200,
+    json: {
+      message: "User authenticated successfully.",
+      token: generatedToken
+    }
+  }
+}
+
+export const sendEmailMessage = async ({ sendTo, subject, html }: emailTemplateProp) => {
+  const { sendEmail } = await useNodeMailer({
+    sendTo,
+    subject,
+    html,
+  })
+  return await sendEmail();
 }

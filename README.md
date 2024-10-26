@@ -1,4 +1,4 @@
-### Simple NodeJS + ExpressJS + TypeScript Boilerplate 
+### Simple NodeJS + ExpressJS + Mongo + TypeScript Boilerplate 
 
 A boilerplate for starting a new project using the following technologies:
 
@@ -14,3 +14,7 @@ A boilerplate for starting a new project using the following technologies:
 ⭐ DotENV
 
 ⭐ Nodemon
+
+⭐ MongoDB
+
+⭐ Bcrypt
